@@ -10,14 +10,24 @@ Author credit: https://gist.github.com/Rits1272
 from slack import RTMClient
 import requests
 
+import os
 import subprocess
 import shlex
 import threading
 
 def youtube_download_func(url):
-    yt-dlp-program = f"yt-dlp {url}"
-    cmds = shlex.split(yt-dlp-program)
-    p = subprocess.Popen(cmds, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL )
+    command = f"yt-dlp {url}"
+
+    # determine OS type
+    posix = False
+    if os.name == 'posix':
+        posix = True
+
+    if posix: # posix case, single command string including arguments
+        args = [command]
+    else: # windows case, split arguments by spaces
+        args = shlex.split(command)
+    p = subprocess.Popen(args, start_new_session=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL )
   
 @RTMClient.run_on(event="message")
 def amusebot(**payload):
