@@ -1,6 +1,9 @@
-from mysql.connector import MySQLConnection, Error
-from python_mysql_dbconfig import read_db_config
-import pymysql 
+#pip install mysql-connector-python
+#from mysql.connector import MySQLConnection, Error
+#from python_mysql_dbconfig import read_db_config
+
+#pip install pymysql
+import pymysql
 
 #https://www.digitalocean.com/community/tutorials/how-to-store-and-retrieve-data-in-mariadb-using-python-on-ubuntu-18-04
 #add_data("sample_user")
@@ -12,10 +15,11 @@ def add_data(username):
     password=password,
     host=localhost,
     database="users")
-    
+
     cursor = connection.cursor()
     try:
-	    statement = "INSERT INTO users (usernames) VALUES (%s)"
+        #https://www.mysqltutorial.org/mysql-insert-ignore/
+	    statement = "INSERT IGNORE INTO users (usernames) VALUES (%s)"
 	    data = (username)
 	    cursor.execute(statement, data)
 	    cursor.commit()
@@ -26,48 +30,48 @@ def add_data(username):
 #https://www.digitalocean.com/community/tutorials/how-to-store-and-retrieve-data-in-mariadb-using-python-on-ubuntu-18-04
 #get_data("sample_user")
 def get_data(username):
-	#import mysql.connector as database
-    	username = "db_user"
-    	password = "db_pass"
-    	connection = database.connect(
-    	user=username,
-    	password=password,
-    	host=localhost,
-    	database="users")
-    
-    	cursor = connection.cursor()
-    	try:
-		statement = "SELECT * FROM users WHERE username=%s"
-      		data = (username)
-      		cursor.execute(statement, data)
-      		for (first_name, last_name) in cursor:
-	      		print(f"Successfully retrieved {first_name}, {last_name}")
-    	except database.Error as e:
-		print(f"Error retrieving entry from database: {e}")
+    #import mysql.connector as database
+    username = "db_user"
+    password = "db_pass"
+    connection = database.connect(
+    user=username,
+    password=password,
+    host=localhost,
+    database="users")
+    cursor = connection.cursor()
+    try:
+        statement = "SELECT * FROM users WHERE username=%s"
+        data = (username)
+        cursor.execute(statement, data)
+        for (username) in cursor:
+            print(f"Successfully retrieved {username}")
+    except database.Error as e:
+        print(f"Error retrieving entry from database: {e}")
     connection.close()
 
 #https://www.geeksforgeeks.org/python-mariadb-insert-into-table-using-pymysql/
+'''
 def mysql_insert(name):
-    Host = "localhost"  
-    # User name of the database server 
-    User = "db_user"       
-    # Password for the database user 
-    Password = "db_pass"            
-      
-    database = "users"
-      
-    conn  = pymysql.connect(host=Host, user=User, password=Password, database) 
-      
-    # Create a cursor object 
-    cur  = conn.cursor() 
-    
+    Host = "localhost"
+    # User name of the database server
+    User = "db_user"
+    # Password for the database user
+    Password = "db_pass"
+    Database = "users"
+    conn = pymysql.connect(host=Host, user=User, password=Password, database=Database)
+
+    # Create a cursor object
+    cur = conn.cursor()
+
     query = f"INSERT INTO USERS (username) VALUES ('{name}')"
-    cur.execute(query) 
-    print(f"{cur.rowcount} details inserted") 
-    conn.commit() 
-    conn.close() 
+    cur.execute(query)
+    print(f"{cur.rowcount} details inserted")
+    conn.commit()
+    conn.close()
+'''
 
 #https://www.mysqltutorial.org/python-mysql-insert/
+'''
 def insert_record(name):
     query = "INSERT INTO users(username) " \
             "VALUES(%s)"
@@ -92,17 +96,14 @@ def insert_record(name):
     finally:
         cursor.close()
         conn.close()
-      
+'''
+
 if __name__ == "__main__":
-  #read file 
+  #read file
   #https://stackoverflow.com/questions/3277503/how-to-read-a-file-line-by-line-into-a-list
   with open("example.txt") as file:
     #lines = [line.rstrip() for line in file]
     for line in file:
         print(line.rstrip())
-
-        #store in queue
-
-        #worker thread to insert into DB
-        insert_record(line)
-  
+        insert = line.rstrip()
+        #add_data(insert)
