@@ -8,7 +8,6 @@ Author credit: https://gist.github.com/Rits1272
 '''
 
 from slack import RTMClient
-import requests
 
 import os
 import subprocess
