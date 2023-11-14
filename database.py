@@ -1,9 +1,9 @@
 from mysql.connector import MySQLConnection, Error
 from python_mysql_dbconfig import read_db_config
-
 import pymysql 
 
 #https://www.digitalocean.com/community/tutorials/how-to-store-and-retrieve-data-in-mariadb-using-python-on-ubuntu-18-04
+#add_data("sample_user")
 def add_data(username):
     username = "db_user"
     password = "db_pass"
@@ -14,38 +14,36 @@ def add_data(username):
     database="users")
     
     cursor = connection.cursor()
-    
-	try:
-        statement = "INSERT INTO users (usernames) VALUES (%s)"
-        data = (username)
-    	  cursor.execute(statement, data)
-        cursor.commit()
-        print("Successfully added entry to database")
-	except database.Error as e:
-        print(f"Error adding entry to database: {e}")
+    try:
+	    statement = "INSERT INTO users (usernames) VALUES (%s)"
+	    data = (username)
+	    cursor.execute(statement, data)
+	    cursor.commit()
+	    print("Successfully added entry to database")
+    except database.Error as e:
+	    print(f"Error adding entry to database: {e}")
 
 #https://www.digitalocean.com/community/tutorials/how-to-store-and-retrieve-data-in-mariadb-using-python-on-ubuntu-18-04
 #get_data("sample_user")
 def get_data(username):
-    #import mysql.connector as database
-    username = "db_user"
-    password = "db_pass"
-    connection = database.connect(
-    user=username,
-    password=password,
-    host=localhost,
-    database="users")
+	#import mysql.connector as database
+    	username = "db_user"
+    	password = "db_pass"
+    	connection = database.connect(
+    	user=username,
+    	password=password,
+    	host=localhost,
+    	database="users")
     
-    cursor = connection.cursor()
-
-    try:
-      statement = "SELECT * FROM users WHERE username=%s"
-      data = (username)
-      cursor.execute(statement, data)
-      for (first_name, last_name) in cursor:
-        print(f"Successfully retrieved {first_name}, {last_name}")
-    except database.Error as e:
-      print(f"Error retrieving entry from database: {e}")
+    	cursor = connection.cursor()
+    	try:
+		statement = "SELECT * FROM users WHERE username=%s"
+      		data = (username)
+      		cursor.execute(statement, data)
+      		for (first_name, last_name) in cursor:
+	      		print(f"Successfully retrieved {first_name}, {last_name}")
+    	except database.Error as e:
+		print(f"Error retrieving entry from database: {e}")
     connection.close()
 
 #https://www.geeksforgeeks.org/python-mariadb-insert-into-table-using-pymysql/
